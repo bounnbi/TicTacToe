@@ -15,19 +15,20 @@ public class Game {
     }
 
     public int[] inputRegex() {
-        while (true) {
-            System.out.print("Entrez deux chiffres entre 0 et 2 (ex: 1 2) : ");
-            String input = scanner.nextLine().trim();
-            Matcher matcher = pattern.matcher(input);
 
-            if (matcher.matches()) {
-                String[] parts = input.split("\\s+");
-                int x = Integer.parseInt(parts[0]);
-                int y = Integer.parseInt(parts[1]);
-                return new int[]{x, y};
+            while (true) {
+                System.out.print("Entrez deux chiffres entre 0 et 2 (ex: 0 2) : ");
+                String input = scanner.nextLine().trim();
+                Matcher matcher = pattern.matcher(input);
+
+                if (matcher.matches()) {
+                    String[] parts = input.split("\\s+");
+                    int x = Integer.parseInt(parts[0]);
+                    int y = Integer.parseInt(parts[1]);
+                    return new int[]{x, y};
+                }
+                System.out.println("Entrée invalide, réessayez.");
             }
-            System.out.println("Entrée invalide, réessayez.");
-        }
     }
 
     public void play() {
@@ -36,13 +37,17 @@ public class Game {
 
             Player currentPlayer = (compteurPlayer1 == compteurPlayer2) ? player1 : player2;
             System.out.println("Au tour du joueur : " + currentPlayer.getName());
-
-            int[] coords = inputRegex();
-            int row = coords[0];
-            int col = coords[1];
-
-            board.completBoard(row, col, currentPlayer.getChoix());
-
+            while (true) {
+                int[] coords = inputRegex();
+                int row = coords[0];
+                int col = coords[1];
+                if (board.isEmpty(row,col)) {
+                    board.completBoard(row, col, currentPlayer.getChoix());
+                    break;
+                }else {
+                    System.out.println("mettez une position non occupé");
+                }
+            }
             if (currentPlayer == player1) {
                 compteurPlayer1++;
             } else {
