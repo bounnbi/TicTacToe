@@ -49,6 +49,7 @@ public class Game {
                 compteurPlayer2++;
             }
         }
+        board.display();
         System.out.println("la game est fini");
     }
 
